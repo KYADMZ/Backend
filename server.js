@@ -8,11 +8,15 @@ const server = http.createServer(app);
 // Configuración de CORS para permitir conexiones desde localhost:3000
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000", // Permitir solo desde localhost:3000
+    origin: [
+      "http://localhost:3000",
+      "https://vercel.com/erick-olivas-projects/proyecto-emprendedores"  
+    ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   },
 });
+
 
 let contadorId = 1; // Contador para los IDs únicos de los pedidos
 
@@ -56,7 +60,10 @@ io.on("connection", (socket) => {
 });
 
 // Inicia el servidor en el puerto 3001 (o el puerto que prefieras)
-server.listen(3001, () => {
-  console.log("Servidor WebSocket corriendo en http://localhost:3001");
+const PORT = process.env.PORT || 3001;
+
+server.listen(PORT, () => {
+  console.log(`Servidor WebSocket corriendo en http://localhost:${PORT}`);
 });
+
 
